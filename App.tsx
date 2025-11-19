@@ -63,7 +63,12 @@ export default function App() {
     setCredits(prev => prev - SCOUT_COST);
     
     try {
-      const profile = await generatePlayerProfile(position);
+      // Artificial delay to prevent flickering (minimum 2 seconds)
+      const [profile] = await Promise.all([
+        generatePlayerProfile(position),
+        new Promise(resolve => setTimeout(resolve, 2000))
+      ]);
+
       const salary = calculateSalary(profile.stats, profile.rarity);
       
       const newPlayer: Player = {
@@ -74,9 +79,9 @@ export default function App() {
       };
       setScoutedPlayer(newPlayer);
     } catch (e) {
-      setScoutError("Gözlemci ağı hatası. Güvenli hat ele geçirildi.");
+      setScoutError("Gözlemci ağı hatası. Güvenli hat ele geçirildi veya bağlantı koptu.");
       setCredits(prev => prev + SCOUT_COST); 
-      console.error(e);
+      console.error("Scouting Failed:", e);
     } finally {
       setIsScouting(false);
     }
@@ -115,9 +120,15 @@ export default function App() {
     setIsSimulating(true);
     setMatchResult(null);
     setPaydayMessage(null);
+    setScoutError(null); // Clear previous errors
     
     try {
-      const result = await simulateMatch(squad, selectedTactic);
+      // Artificial delay for match simulation (minimum 2 seconds)
+      const [result] = await Promise.all([
+        simulateMatch(squad, selectedTactic),
+        new Promise(resolve => setTimeout(resolve, 2000))
+      ]);
+
       setMatchResult(result);
       
       let earnings = 0;
@@ -137,8 +148,8 @@ export default function App() {
       }
 
     } catch (e) {
-      console.error(e);
-      setScoutError("Maç simülasyon bağlantısı kesildi.");
+      console.error("Match Simulation Failed:", e);
+      setScoutError("Maç simülasyon bağlantısı kesildi. Lütfen tekrar deneyin.");
     } finally {
       setIsSimulating(false);
     }
@@ -344,6 +355,12 @@ export default function App() {
         {!matchResult && !isSimulating && (
             <div className="glass-panel p-8 rounded-2xl text-center max-w-2xl mx-auto">
                 <h2 className="text-3xl font-display font-bold text-white mb-6">Taktiksel Brifing</h2>
+
+                {scoutError && (
+                    <div className="p-4 bg-rose-900/20 border border-rose-500/50 text-rose-400 rounded-lg flex items-center justify-center gap-2 mb-6 animate-in shake">
+                        <AlertTriangle size={18} /> {scoutError}
+                    </div>
+                )}
                 
                 <div className="grid grid-cols-2 gap-4 mb-8">
                     {Object.values(Tactic).map((t) => (
