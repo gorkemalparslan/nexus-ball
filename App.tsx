@@ -653,10 +653,10 @@ export default function App() {
                     <h3 className="text-xl font-display font-bold text-white">4. Taktikler</h3>
                 </div>
                 <div className="grid grid-cols-2 gap-3 text-xs">
-                    <div className="bg-white/5 p-2 rounded text-slate-300 border border-white/5">Baskı > Pas Oyunu</div>
-                    <div className="bg-white/5 p-2 rounded text-slate-300 border border-white/5">Pas > Otobüs</div>
-                    <div className="bg-white/5 p-2 rounded text-slate-300 border border-white/5">Otobüs > Kontra</div>
-                    <div className="bg-white/5 p-2 rounded text-slate-300 border border-white/5">Kontra > Baskı</div>
+                    <div className="bg-white/5 p-2 rounded text-slate-300 border border-white/5">Baskı &gt; Pas Oyunu</div>
+                    <div className="bg-white/5 p-2 rounded text-slate-300 border border-white/5">Pas &gt; Otobüs</div>
+                    <div className="bg-white/5 p-2 rounded text-slate-300 border border-white/5">Otobüs &gt; Kontra</div>
+                    <div className="bg-white/5 p-2 rounded text-slate-300 border border-white/5">Kontra &gt; Baskı</div>
                 </div>
             </div>
         </div>
