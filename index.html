@@ -14,47 +14,80 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;500;700&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
       
+      :root {
+        --primary-glow: conic-gradient(from 180deg at 50% 50%, #16abff33 0deg, #0885ff33 55deg, #54d6ff33 120deg, #0071ff33 160deg, transparent 360deg);
+        --secondary-glow: radial-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+      }
+
       body {
         font-family: 'Rajdhani', sans-serif;
-        background-color: #05050a;
+        background-color: #020408;
+        background-image: 
+          radial-gradient(circle at 50% 0%, rgba(6, 182, 212, 0.1) 0%, transparent 60%),
+          radial-gradient(circle at 80% 100%, rgba(244, 63, 94, 0.08) 0%, transparent 50%),
+          radial-gradient(circle at 20% 100%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
+        background-attachment: fixed;
         color: #e2e8f0;
-        overscroll-behavior-y: none; /* Prevent pull-to-refresh on mobile */
+        overscroll-behavior-y: none;
+        -webkit-tap-highlight-color: transparent;
       }
       
       h1, h2, h3, h4, .font-display {
         font-family: 'Orbitron', sans-serif;
       }
 
-      .scanline {
-        background: linear-gradient(
-          to bottom,
-          rgba(255,255,255,0),
-          rgba(255,255,255,0) 50%,
-          rgba(0,0,0,0.2) 50%,
-          rgba(0,0,0,0.2)
-        );
-        background-size: 100% 4px;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        pointer-events: none;
-        z-index: 50;
-        opacity: 0.15;
+      .glass-panel {
+        background: rgba(10, 15, 30, 0.6);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
       }
 
-      .glass-panel {
-        background: rgba(15, 23, 42, 0.6);
-        backdrop-filter: blur(12px);
-        border: 1px solid rgba(56, 189, 248, 0.1);
-        box-shadow: 0 0 15px rgba(56, 189, 248, 0.05);
+      .glass-button {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(4px);
+        transition: all 0.3s ease;
+      }
+
+      .glass-button:hover {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+        border-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 0 15px rgba(6, 182, 212, 0.15);
       }
 
       .neon-text {
-        text-shadow: 0 0 5px rgba(56, 189, 248, 0.5), 0 0 10px rgba(56, 189, 248, 0.3);
+        text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+      }
+
+      .scanline {
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
+        background-size: 100% 4px;
+        position: fixed;
+        top: 0;
+        pointer-events: none;
+        opacity: 0.4;
+      }
+
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.1);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.2);
       }
     </style>
   <script type="importmap">

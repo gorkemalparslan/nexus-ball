@@ -9,16 +9,20 @@ const getAIClient = () => {
   return new GoogleGenAI({ apiKey });
 };
 
+// Helper to clean markdown json blocks if present
+const cleanJsonText = (text: string): string => {
+  return text.replace(/```json|```/g, '').trim();
+};
+
 export const generatePlayerProfile = async (targetPosition?: Position): Promise<Omit<Player, 'id' | 'avatarColor' | 'salary'>> => {
   const ai = getAIClient();
   
-  // Updated prompt to be less likely to trigger safety filters (avoiding "illegal", "banned", "underground" in a criminal context)
   const prompt = `Alternatif bir cyberpunk ligi için kurgusal bir futbolcu profili oluştur. 
   Oyuncu geleneksel olmayan futbol ülkelerinden (örn. küçük ada ülkeleri, uzak bölgeler veya kurgusal fütüristik şehir devletleri) gelmelidir.
   ${targetPosition ? `Oyuncu şu mevkide olmalı: ${targetPosition}.` : ''}
   İstatistiklerine göre nadirliğini belirle (Sıradan: ort < 60, Nadir: ort < 80, Efsanevi: ort < 95, Glitch: ort > 95).
   Bu alternatif ligde nasıl keşfedildiğine dair kısa, havalı ve gizemli bir hikaye yaz (Türkçe).
-  İsimler yabancı/fütüristik olabilir ama hikaye ve köken Türkçe olmalı.`;
+  İsimler yabancı/fütüristik olabilir ama hikaye ve köken Türkçe olmalı. Yanıtı sadece saf JSON olarak ver.`;
 
   const response = await ai.models.generateContent({
     model: "gemini-2.5-flash",
@@ -61,7 +65,7 @@ export const generatePlayerProfile = async (targetPosition?: Position): Promise<
   const text = response.text;
   if (!text) throw new Error("No response from AI");
   
-  return JSON.parse(text) as Omit<Player, 'id' | 'avatarColor' | 'salary'>;
+  return JSON.parse(cleanJsonText(text)) as Omit<Player, 'id' | 'avatarColor' | 'salary'>;
 };
 
 export const simulateMatch = async (squad: Player[], tactic: Tactic): Promise<MatchResult> => {
@@ -72,16 +76,16 @@ export const simulateMatch = async (squad: Player[], tactic: Tactic): Promise<Ma
   const avgDefense = squad.reduce((acc, p) => acc + p.stats.defense + p.stats.physical, 0) / squad.length;
   const starPlayer = squad.reduce((prev, current) => (prev.stats.dribbling > current.stats.dribbling) ? prev : current);
 
-  const prompt = `Nexus Ligi'nde yüksek riskli bir maç simüle et.
+  const prompt = `Nexus Ligi'nde rekabetçi bir futbol maçı simüle et.
   Kullanıcının Takım Stratejisi: ${tactic}.
   Kullanıcının Kilit Oyuncusu: ${starPlayer.name} (${starPlayer.position}).
   Takım Ortalama Saldırı Gücü: ${Math.round(avgAttack)}.
   Takım Ortalama Savunma Gücü: ${Math.round(avgDefense)}.
   
-  Kurgusal, cyberpunk temalı bir rakip takım ismi oluştur (örn. 'Neo-Tokyo Drifters', 'Svalbard Buzkıranları').
-  Taktik ve istatistiklere göre skoru belirle (Taş Kağıt Makas mantığı: Kontratak Saldırıyı yener, Topa Sahip Olma Otobüsü yener vb.).
-  Dakika bilgisiyle 3-5 önemli maç olayı oluştur (Türkçe).
-  Maçın atmosferini anlatan kısa, dramatik bir özet yaz (Türkçe).
+  Kurgusal, cyberpunk temalı bir rakip takım ismi oluştur.
+  Taktik ve istatistiklere göre skoru belirle (Taş Kağıt Makas mantığı: Kontratak Saldırıyı yener vb.).
+  Dakika bilgisiyle 3-5 önemli maç olayı oluştur (Türkçe). Olaylar tamamen sportif ve futbol kuralları çerçevesinde olmalı.
+  Maçın atmosferini anlatan kısa, dramatik bir özet yaz (Türkçe). Yanıtı sadece saf JSON olarak ver.
   `;
 
   const response = await ai.models.generateContent({
@@ -125,5 +129,5 @@ export const simulateMatch = async (squad: Player[], tactic: Tactic): Promise<Ma
   const text = response.text;
   if (!text) throw new Error("No response from AI");
 
-  return JSON.parse(text) as MatchResult;
+  return JSON.parse(cleanJsonText(text)) as MatchResult;
 };
