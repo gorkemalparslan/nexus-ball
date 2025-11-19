@@ -478,9 +478,9 @@ export default function App() {
                 </div>
                 <div className="text-2xl text-white font-bold mb-2 tracking-widest">SİMÜLASYON AKTİF</div>
                 <div className="flex flex-col items-center gap-1 text-sm text-cyan-400/80">
-                    <span>> Rakip analizi yapılıyor...</span>
-                    <span className="animate-[fade-in_1s_ease-in-out_0.5s_forwards] opacity-0">> Taktiksel vektörler hesaplanıyor...</span>
-                    <span className="animate-[fade-in_1s_ease-in-out_1s_forwards] opacity-0">> Sonuç optimize ediliyor...</span>
+                    <span>{'>'} Rakip analizi yapılıyor...</span>
+                    <span className="animate-[fade-in_1s_ease-in-out_0.5s_forwards] opacity-0">{'>'} Taktiksel vektörler hesaplanıyor...</span>
+                    <span className="animate-[fade-in_1s_ease-in-out_1s_forwards] opacity-0">{'>'} Sonuç optimize ediliyor...</span>
                 </div>
             </div>
         )}
@@ -653,10 +653,10 @@ export default function App() {
                     <h3 className="text-xl font-display font-bold text-white">4. Taktikler</h3>
                 </div>
                 <div className="grid grid-cols-2 gap-3 text-xs">
-                    <div className="bg-white/5 p-2 rounded text-slate-300 border border-white/5">Baskı &gt; Pas Oyunu</div>
-                    <div className="bg-white/5 p-2 rounded text-slate-300 border border-white/5">Pas &gt; Otobüs</div>
-                    <div className="bg-white/5 p-2 rounded text-slate-300 border border-white/5">Otobüs &gt; Kontra</div>
-                    <div className="bg-white/5 p-2 rounded text-slate-300 border border-white/5">Kontra &gt; Baskı</div>
+                    <div className="bg-white/5 p-2 rounded text-slate-300 border border-white/5">Baskı {'>'} Pas Oyunu</div>
+                    <div className="bg-white/5 p-2 rounded text-slate-300 border border-white/5">Pas {'>'} Otobüs</div>
+                    <div className="bg-white/5 p-2 rounded text-slate-300 border border-white/5">Otobüs {'>'} Kontra</div>
+                    <div className="bg-white/5 p-2 rounded text-slate-300 border border-white/5">Kontra {'>'} Baskı</div>
                 </div>
             </div>
         </div>
